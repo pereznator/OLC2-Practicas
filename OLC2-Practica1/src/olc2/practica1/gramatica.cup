@@ -1,0 +1,57 @@
+package olc2.practica1; 
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+//Parser Code
+parser code 
+{:
+    public void syntax_error(Symbol sim){
+        System.out.println("[Error recuperable]: " + sim.value + "| Linea: " + (sim.right + 1) + "| Columna: " + (sim.left + 1));
+    }
+    public void unrecovered_syntax_error(Symbol sim){
+        System.out.println("[Error NO recuperable]: " + sim.value + "| Linea: " + (sim.right + 1) + "| Columna: " + (sim.left + 1));
+    }
+
+    public void imprimir(LinkedList<String> lista) {
+        for(String palabra : lista) {
+               System.out.println(palabra);
+        }
+    }
+
+:}
+
+//Action code
+action code
+{:
+
+:}
+
+//Terminales
+terminal String COMA;
+terminal String PALABRA;
+
+//No terminales
+non terminal lista, inicio;
+
+// Inicializacion
+
+start with inicio;
+
+inicio ::= lista:p
+    {:
+        System.out.println(p);
+    :}
+;
+
+lista ::= lista:l COMA PALABRA:p
+    {:
+        System.out.println(p);
+        RESULT = l;
+    :}
+    | PALABRA:p
+    {:
+        RESULT = p;
+    :}
+;
+
